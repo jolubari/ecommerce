@@ -1,0 +1,99 @@
+<app-nav></app-nav>
+
+<main class="cs-page-wrapper">
+
+    <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb-alt mb-0">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="['/']"><i class="cxi-home"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">My profile</li>
+            </ol>
+        </div>
+    </nav>
+
+    <section class="container pt-3 pt-lg-4 pb-5 pb-lg-6">
+        <div class="row pb-2 pb-lg-0">
+
+            <!-- Account menu (sticky sidebar) -->
+            <aside class="col-xl-3 col-lg-4 pb-3 mb-4 mb-lg-0">
+                <app-sidebar></app-sidebar>
+            </aside>
+            <!-- Content -->
+            <div class="col-lg-8 ml-auto">
+                <div class="d-flex align-items-center justify-content-between mb-4 pb-1 pb-sm-3">
+                    <h1 class="h2 mb-0">My profile</h1>
+                    <!-- <a href="#" class="btn text-danger btn-link font-size-base text-decoration-none pr-0">
+                        <i class="cxi-delete font-size-lg mt-n1 mr-2"></i> Delete account
+                    </a> -->
+                </div>
+                <form #updateForm="ngForm" (ngSubmit)="updateProfile(updateForm)">
+                    <div class="row pb-3">
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">First Name</label>
+                            <input type="text" required class="form-control form-control-lg" name="first_name" [(ngModel)]="client.first_name">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Second Name</label>
+                            <input type="text" required class="form-control form-control-lg" name="second_name" [(ngModel)]="client.second_name">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-ln">First Surname</label>
+                            <input type="text" required class="form-control form-control-lg" name="first_surname" [(ngModel)]="client.first_surname">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-ln">Second Surname</label>
+                            <input type="text" required class="form-control form-control-lg" name="second_surname" [(ngModel)]="client.second_surname">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-email">Email</label>
+                            <input type="email" required class="form-control form-control-lg" [value]="client.email ? client.email : ''" readonly>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-phone">Phone</label>
+                            <input type="number" required class="form-control form-control-lg" name="phone" [(ngModel)]="client.phone">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-phone">New Password</label>
+                            <input type="password" autocomplete="new-password" required class="form-control form-control-lg" placeholder="Change your password" id="input_password">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-date">Born Date</label>
+                            <input type="date" required class="form-control form-control-lg" name="born_date" [(ngModel)]="client.born_date">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-phone">Identity Document</label>
+                            <input type="text" required class="form-control form-control-lg" name="identity_document" [(ngModel)]="client.identity_document">
+                        </div>
+
+
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-country">Gender</label>
+                            <select id="ac-country" required class="custom-select custom-select-lg" name="gender" [(ngModel)]="client.gender">
+                                <option value="" disabled selected>Choose Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-city">Country</label>
+                            <select id="ac-city" required class="custom-select custom-select-lg" name="country" [(ngModel)]="client.country">
+                                <option value="" disabled selected>Choose country</option>
+                                <option value="argentina">Argentina</option>
+                                <option value="bolivia">Bolivia</option>
+                                <option value="chile">Chile</option>
+                                <option value="colombia">Colombia</option>
+                                <option value="brasil">Brasil</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">&nbsp;Update profile&nbsp;</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<app-footer></app-footer>

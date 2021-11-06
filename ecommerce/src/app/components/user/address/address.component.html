@@ -1,0 +1,168 @@
+<app-nav></app-nav>
+
+<main class="cs-page-wrapper">
+
+    <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb-alt mb-0">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="['/']"><i class="cxi-home"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Mis direcciones</li>
+            </ol>
+        </div>
+    </nav>
+
+    <section class="container pt-3 pt-lg-4 pb-5 pb-lg-6">
+        <div class="row pb-2 pb-lg-0">
+
+            <!-- Account menu (sticky sidebar) -->
+            <aside class="col-xl-3 col-lg-4 pb-3 mb-4 mb-lg-0">
+                <app-sidebar></app-sidebar>
+            </aside>
+            <!-- Content -->
+            <div class="col-lg-8 ml-auto">
+                <div class="d-flex align-items-center justify-content-between mb-4 pb-1 pb-sm-3">
+                    <h1 class="h2 mb-0">Nueva dirección</h1>
+                </div>
+                <!--FORMULARIO DE DIRECCIONES-->
+                <form class="mb-6" #registerForm="ngForm" (ngSubmit)="registerAddress(registerForm)">
+                    <div class="row mb-3">
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Destinatario</label>
+                            <input type="text" required class="form-control form-control-lg" name="receiver" [(ngModel)]="address.receiver" placeholder="Nombres completos">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">DNI</label>
+                            <input type="text" required class="form-control form-control-lg" name="identity_document" [(ngModel)]="address.identity_document" placeholder="DNI">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">ZIP</label>
+                            <input type="text" required class="form-control form-control-lg" name="postal_code" [(ngModel)]="address.postal_code" placeholder="Codigo postal">
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Telefono</label>
+                            <input type="text" required class="form-control form-control-lg" name="telefono" [(ngModel)]="address.phone" placeholder="phone">
+                        </div>
+                        <div class="col-sm-12 form-group">
+                            <label for="ac-fn">Direccion</label>
+                            <textarea required class="form-control" placeholder="Dirección" name="address" [(ngModel)]="address.address" rows="3"></textarea>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Pais</label>
+                            <select name="pais" required [(ngModel)]="address.country" class="custom-select custom-select-lg" (change)="countrySelected()">
+                                <option value="" selected disabled>Seleccionar</option>
+                                <option value="Argentina">Argentina</option>
+                                <option value="Bolivia">Bolivia</option>
+                                <option value="Brasil">Brasil</option>
+                                <option value="Chile">Chile</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Costa Rica">Costa Rica</option>
+                                <option value="Cuba">Cuba</option>
+                                <option value="Ecuador">Ecuador</option>
+                                <option value="El Salvador">El Salvador</option>
+                                <option value="España">España</option>
+                                <option value="Estados Unidos">Estados Unidos</option>
+                                <option value="Guatemala">Guatemala</option>
+                                <option value="Haití">Haití</option>
+                                <option value="Honduras">Honduras</option>
+                                <option value="México">México</option>
+                                <option value="Nicaragua">Nicaragua</option>
+                                <option value="Panamá">Panamá</option>
+                                <option value="Paraguay">Paraguay</option>
+                                <option value="Perú">Perú</option>
+                                <option value="República Dominican">República Dominican</option>
+                                <option value="Uruguay">Uruguay</option>
+                                <option value="Venezuela">Venezuela</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Comunidad autónoma</label>
+                            <select id="sl-district" name="district" [(ngModel)]="address.district" class="custom-select custom-select-lg" disabled (change)="districtSelected()">
+                                <option value="" selected disabled>Seleccionar</option>
+                                <option [value]="item.name" *ngFor="let item of districts">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Provincia</label>
+                            <select id="sl-province" name="province" [(ngModel)]="address.province" class="custom-select custom-select-lg" disabled (change)="provinceSelected()">
+                                <option value="" selected disabled>Seleccionar</option>
+                                <option [value]="item.name" *ngFor="let item of provinces">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6 form-group">
+                            <label for="ac-fn">Ciudad</label>
+                            <select id="sl-city" name="city" [(ngModel)]="address.city" class="custom-select custom-select-lg" disabled>
+                                <option value="" selected disabled>Seleccionar</option>
+                                <option [value]="item.name" *ngFor="let item of cities">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="ex-check-1" name="principal" [(ngModel)]="address.principal">
+                                <label class="form-check-label" for="ex-check-1">Activar cuenta principal</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">&nbsp;Crear direccion&nbsp;</button>
+                </form>
+
+                <div class="d-flex align-items-center justify-content-between mb-4 pb-1 pb-sm-3">
+                    <h1 class="h2 mb-0">Mis direcciones</h1>
+                    <!--  <a href="#" class="btn text-danger btn-link font-size-base text-decoration-none pr-0">
+                      <i class="cxi-delete font-size-lg mt-n1 mr-2"></i>
+                      Delete account
+                    </a> -->
+                </div>
+
+                <div class="row" *ngIf="!loadingData">
+                    <div class="col-12" *ngIf="addressesClientList.length > 0 ">
+                        <ng-container *ngFor="let item of addressesClientList">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row ">
+                                        <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
+                                            <h3 class="mb-2 fs-lg">{{item.receiver}}</h3>
+                                            <span class="d-block mb-3 fs-sm text-muted">{{item.postal_code}}</span>
+
+                                            <a class="badge badge-primary" *ngIf="item.principal">Dirección de envio</a>
+                                            <a class="badge badge-success" style="cursor: pointer;" *ngIf="!item.principal" (click)="setAsMainAddress(item._id)">Establecer como principal</a>
+
+                                        </div>
+                                        <div class="col">
+                                            <p class="mb-3">
+                                                {{item.address}}
+                                            </p>
+                                            <p class="mb-3">
+                                                {{item.country}} -
+                                                <span *ngIf="item.district">{{item.district}}</span> -
+                                                <span *ngIf="item.province">{{item.province}}</span> -
+                                                <span *ngIf="item.city">{{item.city}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="col-12" *ngIf="addressesClientList.length == 0">
+                        <h3 class="h6 mb-2 text-uppercase">No se encontraron direcciones</h3>
+                        <h2 class="h1 pb-lg-3" style="font-size:2rem !important">Debe registrar su direccion de envio por favor ...</h2>
+                    </div>
+                </div>
+                <div class="row" *ngIf="loadingData">
+                    <div class="col_12 text-center">
+                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+
+<app-footer></app-footer>

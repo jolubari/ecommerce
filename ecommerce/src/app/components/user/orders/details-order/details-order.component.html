@@ -1,0 +1,222 @@
+<app-nav></app-nav>
+
+<main class="cs-page-wrapper">
+
+    <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb breadcrumb-alt mb-0">
+                <li class="breadcrumb-item">
+                    <a [routerLink]="['/']"><i class="cxi-home"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Pedido-</li>
+            </ol>
+        </div>
+    </nav>
+
+    <section class="container pt-3 pt-lg-4 pb-5 pb-lg-6">
+        <div class="row pb-2 pb-lg-0">
+
+            <!-- Account menu (sticky sidebar) -->
+            <aside class="col-xl-3 col-lg-4 pb-3 mb-4 mb-lg-0">
+                <app-sidebar></app-sidebar>
+            </aside>
+
+            <!-- Content -->
+            <div class="col-lg-8 ml-auto" *ngIf="order">
+
+                <div class="d-flex align-items-center justify-content-between mb-4 pb-sm-2">
+                    <h1 class="h2 mb-0">Mi pedido #{{idOrder | uppercase}}</h1>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card card-body py-3 box-shadow ">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table class="table mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <th class="border-0 py-2 pl-0">Pedido No:</th>
+                                                <td class="border-0 py-2 px-0 text-muted">{{idOrder | uppercase}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-0 py-2 pl-0">Envío:</th>
+                                                <td class="border-0 py-2 px-0 text-muted">{{order.shipment_method}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-0 py-2 pl-0">Fecha compra:</th>
+                                                <td class="border-0 py-2 px-0 text-muted">{{order.createdAt | date}}</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <table class="table mb-0">
+                                        <tbody>
+
+                                            <tr>
+                                                <th class="border-0 py-2 pl-0">Venta:</th>
+                                                <td class="border-0 py-2 px-0 text-muted">{{order.sale_number}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-0 py-2 pl-0">Transacción:</th>
+                                                <td class="border-0 py-2 px-0 text-muted">{{order.code_transaction}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th class="border-0 py-2 pl-0">Estado:</th>
+                                                <td class="border-0 py-2 px-0 text-muted">{{order.state}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4" *ngIf="order.address">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row ">
+                                    <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
+                                        <h3 class="mb-2 fs-lg">{{order.address.receiver}}</h3>
+                                        <span class="d-block mb-3 fs-sm text-muted">{{order.address.postal_code}}</span>
+
+                                        <a class="badge badge-primary" *ngIf="order.address.principal">Dirección de envio</a>
+                                    </div>
+                                    <div class="col">
+                                        <p class="mb-3">
+                                            {{order.address.address}}
+                                        </p>
+                                        <p class="mb-3">
+                                            {{order.address.country}} -
+                                            <span *ngIf="order.address.district">{{order.address.district}}</span> -
+                                            <span *ngIf="order.address.province">{{order.address.province}}</span> -
+                                            <span *ngIf="order.address.city">{{order.address.city}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-bottom">
+
+                    <div id="order-1" class="collapse show" data-parent="#orders">
+                        <div class="bg-secondary rounded mb-4">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <tbody>
+                                        <tr *ngFor="let item of detailsOrder">
+                                            <td class="border-top-0">
+                                                <div class="media pl-2 py-2">
+                                                    <a href="shop-single.html" style="min-width: 80px;">
+                                                        <img [src]="url+'getCoverProduct/'+item.product.cover" width="80" alt="Product thumb">
+                                                    </a>
+                                                    <div class="media-body pl-3">
+                                                        <h3 class="font-size-sm mb-3">
+                                                            <a href="shop-single.html" class="nav-link font-weight-bold">{{item.product.title}}</a>
+                                                        </h3>
+                                                        <ul class="list-unstyled font-size-xs mt-n2 mb-2">
+                                                            <li class="mb-0"><span class="text-muted">{{item.product.variety_title}}:</span> {{item.variety}}</li>
+                                                        </ul>
+                                                        <a class="text-primary" style="cursor: pointer;" data-toggle="modal" [attr.data-target]="'#review-'+item._id" (click)="openModal(item)" *ngIf="!item.state">[Emitir reseña]</a>
+                                                        <span class="badge badge-warning" *ngIf="item.state">Reseña emitida</span>
+
+                                                        <div class="modal fade" id="review-{{item._id}}" tabindex="-1" style="display: none;" aria-modal="true" role="dialog">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Emitir Reseña</h4>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12 form-group">
+                                                                                <label for="ac-fn">Reseña</label>
+                                                                                <textarea required class="form-control" placeholder="Que te pareció el producto" name="review" [(ngModel)]="reviewClient.review" rows="3"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Paquete npm para estrellas de reseña npm i ng-starrating --legacy-peer-deps  -->
+                                                                        <star-rating [value]="starProductEvaluation" [totalstars]="starProductEvaluation" size="40px" checkedcolor="red" uncheckedcolor="gray" (rate)="onRate($event)"></star-rating>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cerrar</button>
+                                                                        <button class="btn btn-primary btn-shadow btn-sm" type="button" (click)="emitRate(item._id)">Enviar valoración</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <div class="py-2">
+                                                    <div class="font-size-xs text-muted mb-1">Precio:</div>
+                                                    <div class="font-size-sm text-dark">{{item.product.price}} €</div>
+                                                </div>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <div class="py-2">
+                                                    <div class="font-size-xs text-muted mb-1">Cantidad:</div>
+                                                    <div class="font-size-sm text-dark">{{item.quantity}}</div>
+                                                </div>
+                                            </td>
+                                            <td class="border-top-0">
+                                                <div class="py-2 pr-3 text-right">
+                                                    <div class="font-size-xs text-muted mb-1">Subtotal:</div>
+                                                    <div class="font-size-sm font-weight-bold text-dark">{{item.subtotal}} €</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="py-2">
+                                                    <span class="font-size-xs text-muted">Envío: </span>
+                                                    <span class="font-size-sm text-dark">{{order.shipment_price}} €</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="py-2">
+                                                    <span class="font-size-xs text-muted">Impuestos (IVA): </span>
+                                                    <span class="font-size-sm text-dark">0.00 €</span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="py-2 pr-3 text-right">
+                                                    <span class="font-size-xs text-muted">Total: </span>
+                                                    <span class="font-size-sm font-weight-bold text-dark">{{order.subtotal}} €</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end align-items-center mb-4">
+                            <span class="font-weight-bold text-dark mr-3">Puede rastrear su pedido aquí</span>
+                            <a class="btn btn-outline-primary btn-sm">Rastreo de pedido</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8 ml-auto" *ngIf="!order">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="col-lg-12 col-md-5">
+                            <h3 class="h6 mb-2 text-uppercase">Error 404 Pedido no encontrado</h3>
+                            <h2 class="h3 pb-lg-3">No se encontraron detalles para este pedido</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<app-footer></app-footer>
