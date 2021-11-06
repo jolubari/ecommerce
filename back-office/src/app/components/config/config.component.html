@@ -1,0 +1,106 @@
+<app-sidebar></app-sidebar>
+
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Configuraciones</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Este módulo se establece las configuraciones de la tienda.</p>
+
+    </div>
+</div>
+
+<form #configForm="ngForm" (ngSubmit)="updateConfig(configForm)">
+    <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px;">Configuraciones</h5>
+        </div>
+
+        <div class="card-body">
+            <div style="max-width: 48rem;">
+                <div class="form-group row align-items-center">
+                    <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Nombre de la tienda</label>
+                    <div class="col-md-9">
+                        <input class="form-control" type="text" id="text-input" placeholder="Createx" name="business_name" [(ngModel)]="config.business_name">
+                    </div>
+                </div>
+                <div class="form-group row align-items-center">
+                    <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Facturación</label>
+                    <div class="col-md-4">
+                        <input class="form-control" type="number" id="text-input" name="serial_number" [(ngModel)]="config.serial_number">
+                    </div>
+                    <div class="col-md-5">
+                        <input class="form-control" type="number" id="text-input" name="correlative_number" [(ngModel)]="config.correlative_number">
+                    </div>
+                </div>
+                <div class="form-group row align-items-center">
+                    <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Categorías</label>
+                    <div class="col-md-4">
+                        <input class="form-control" type="text" id="text-input" placeholder="Titulo" name="titleCategory" [(ngModel)]="titleCategory">
+
+                    </div>
+                    <div class="col-md-5">
+                        <input class="form-control" type="text" id="text-input" placeholder="Icono" name="iconCategory" [(ngModel)]="iconCategory">
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-9">
+                        <a style="cursor:pointer" class="mb-5" (click)="addCategory()">Agregar</a>
+                        <div class="table-responsive mt-3">
+                            <table class="table table-sm" *ngIf="config.categories">
+                                <thead class="thead-dark">
+                                    <tr>
+
+                                        <th>Category</th>
+                                        <th>Icon</th>
+                                        <th>Options</th>
+
+                                    </tr>
+                                </thead>
+                                <ng-container *ngIf="config.categories.length > 0">
+                                    <tbody *ngFor="let item of config.categories, let imdice = index">
+                                        <tr>
+                                            <td>{{item.title}}</td>
+                                            <td><i class="{{item.icon}}"></i> {{item.icon}}</td>
+                                            <td>
+                                                <a style="cursor: pointer;" class="text-danger" (click)="deleteCategory(imdice)">[Delete]</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </ng-container>
+                                <ng-container *ngIf="config.categories.length == 0">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                <span class="text-muted">No hay categorias disponibles</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </ng-container>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group row align-items-center">
+                    <label class="col-md-3 col-form-label font-weight-medium" for="file-input">Logo</label>
+                    <div class="col-md-9">
+                        <div class="cs-file-drop-area">
+                            <div class="cs-file-drop-preview img-thumbnail rounded">
+                                <img [src]="imgSelected" alt="">
+                            </div>
+                            <span class="cs-file-drop-message">Drag and drop here to upload the logo</span>
+                            <input type="file" class="cs-file-drop-input" (change)="fileChangeEvent($event)">
+                            <button type="button" class="cs-file-drop-btn btn-outline-primary btn-sm">Select file</button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary mr-3" type="submit">Guardar cambios</button>
+        </div>
+    </div>
+</form>

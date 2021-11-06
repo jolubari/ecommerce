@@ -1,0 +1,101 @@
+<app-sidebar></app-sidebar>
+
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Este módulo se estableve las configuraciones de la tineda.</p>
+
+    </div>
+</div>
+
+<div class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Variedad de producto</h5>
+    </div>
+
+    <div class="card-body">
+        <div style="max-width: 48rem;">
+
+            <div class="row mb-5">
+                <div class="col-md-4" style="padding-right: 0;">
+                    <img [src]="url+'getCoverProduct/'+product.cover" class="img-thumbnail rounded-0" alt="">
+                </div>
+                <div class="col-md-8" style="padding-left: 0;">
+                    <div class="card" style="height: 100%; background: #F5EEEE;">
+                        <div class="card-body">
+                            <h3 class="card-product-title text-truncate mb-2">
+                                <a class="nav-link mb-3">{{product.title}}</a>
+                                <p class="text-muted">{{product.description}}</p>
+                                <div class="d-flex align-items-center">
+                                    <span class="h5 d-inline-block mb-0 text-danger">{{product.price}}</span>
+                                    <del class="d-inline-block ml-2 pl-1 text-muted">{{product.price}}</del>
+                                </div>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center">
+                <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Name of variety</label>
+                <div class="col-md-9">
+                    <input class="form-control" type="text" id="text-input" placeholder="Titulo de la variedad" name="variety_title" [(ngModel)]="product.variety_title">
+                </div>
+            </div>
+
+            <div class="form-group row align-items-center">
+                <label class="col-md-3 col-form-label font-weight-medium" for="text-input">Varieties</label>
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <input type="text" class="form-control" type="text" placeholder="New variety" name="newVariety" [(ngModel)]="newVariety">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" (click)="addVariety()">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm" *ngIf="product.varieties">
+                            <thead class="thead-dark">
+                                <tr>
+
+                                    <th>Title</th>
+                                    <th>Options</th>
+
+                                </tr>
+                            </thead>
+                            <ng-container *ngIf="product.varieties.length > 0">
+                                <tbody *ngFor="let item of product.varieties, let indice = index">
+                                    <tr>
+                                        <td>{{item.variety_title}}</td>
+                                        <td>
+                                            <a style="cursor: pointer;" class="text-danger" (click)="deleteVariety(indice)">[Eliminar]</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                            <ng-container *ngIf="product.varieties.length == 0">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" class="text-center">
+                                            <span class="text-muted">No hay categorias disponibles</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer">
+        <button *ngIf="!updating" class="btn btn-primary mr-3" type="button" (click)="updateVariety()">Guardar cambios</button>
+        <button *ngIf="updating" type="button" class="btn btn-secondary" disabled>
+            <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
+            Saving...
+        </button>
+    </div>
+</div>

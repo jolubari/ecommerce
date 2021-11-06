@@ -1,0 +1,127 @@
+<app-sidebar></app-sidebar>
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Client</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Update customer data</p>
+    </div>
+</div>
+<!-- Form -->
+<form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+    <div class="card box-shadow-sm">
+        <div class="card-header">
+            <h5 style="margin-bottom: 0px">Client update form</h5>
+        </div>
+        <ng-container *ngIf="loadingData">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!loadingData">
+            <div class="card-body" *ngIf="client !== undefined">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">First name</label>
+                        <input class="form-control" type="text" placeholder="First name" required name="first_name" [(ngModel)]="client.first_name" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Second name</label>
+                        <input class="form-control" type="text" placeholder="Second name" name="second_name" [(ngModel)]="client.second_name" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">First surname</label
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="First surname"
+              required
+              name="first_surname"
+              [(ngModel)]="client.first_surname"
+            />
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="validationCustom01" class="form-label"
+              >Second surname</label
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Second surname"
+              required
+              name="second_surname"
+              [(ngModel)]="client.second_surname"
+            />
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="validationCustom01" class="form-label">E-mail</label>
+                        <input class="form-control" type="email" placeholder="E-mail" required name="email" [(ngModel)]="client.email" />
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">Phone</label>
+                        <input class="form-control" type="number" placeholder="Phone" required name="phone" [(ngModel)]="client.phone" />
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label for="validationCustom01" class="form-label">date of birth</label
+            >
+            <input
+              class="form-control"
+              type="date"
+              placeholder="date of birth"
+              required
+              name="born_date"
+              [(ngModel)]="client.born_date"
+            />
+          </div>
+          <div class="col-md-4 form-group">
+            <label for="validationCustom01" class="form-label"
+              >Identity Document Number</label
+            >
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Identity Document Number"
+              required
+              name="identity_document"
+              [(ngModel)]="client.identity_document"
+            />
+          </div>
+  
+          <div class="col-md-4">
+            <label for="validationCustom01" class="form-label">Gender</label>
+                        <select class="form-control custom-select" name="gender" [(ngModel)]="client.gender" required>
+              <option value="" disabled selected>Select an gender</option>
+              <option value="Masculino">Male</option>
+              <option value="Femenino">Female</option>
+            </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body" *ngIf="client === undefined">
+                <h3 class="text-center">Client not found</h3>
+
+                <div class="row">
+                    <div class="col-3 mx-auto">
+                        <img src="assets/img/error.png" alt="" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <div class="card-footer">
+            <button *ngIf="!btnDisabled" class="btn btn-primary mr-3" type="submit">Update client</button>
+            <button *ngIf="btnDisabled" type="button" class="btn btn-secondary" disabled>
+              <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
+              Updating...
+            </button>
+            <a [routerLink]="['/panel/clients']" class="btn btn-warning">Go back</a>
+        </div>
+    </div>
+</form>

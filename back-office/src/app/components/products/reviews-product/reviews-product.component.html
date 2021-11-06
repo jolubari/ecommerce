@@ -1,0 +1,88 @@
+<app-sidebar>
+</app-sidebar>
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Este módulo lista todos las reseñas de productos de la tienda.</p>
+        <p class="font-size-sm font-weight-medium pl-md-4">
+            <a class="text-nowrap" [routerLink]="['/panel/products']">Regresar<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a>
+        </p>
+    </div>
+</div>
+
+<div *ngIf="!product" class="card box-shadow-sm">
+    <div class="card-body">
+        <h3 class="text-center">Product Balance not found</h3>
+
+        <div class="row">
+            <div class="col-3 mx-auto">
+                <img src="assets/img/error.png" alt="" style="width: 100%" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="product" class="card box-shadow-sm">
+    <div class="card-header">
+        <h5 style="margin-bottom: 0px;">Reseñas de {{product.title}}</h5>
+    </div>
+    <div class="card-body">
+        <div class="row mb-5">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col-md-4" style="padding-right: 0;">
+                        <img [src]="url+'getCoverProduct/'+product.cover" class="img-thumbnail rounded-0" alt="">
+                    </div>
+                    <div class="col-md-8" style="padding-left: 0;">
+                        <div class="card" style="height: 100%; background: #F5EEEE;">
+                            <div class="card-body">
+                                <h3 class="card-product-title text-truncate mb-2">
+                                    <a class="nav-link mb-3">{{product.title}}</a>
+                                    <p class="text-muted">{{product.description}}</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="h5 d-inline-block mb-0 text-danger">{{product.price}} €</span>
+                                        <del class="d-inline-block ml-2 pl-1 text-muted">{{product.price}} €</del>
+                                    </div>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Product review -->
+        <div class="mb-4 pb-4 border-bottom" *ngIf="reviews.length >= 1">
+            <div class="row" *ngFor="let item of reviews| slice: (page-1)*pageSize: (page-1)*pageSize + pageSize;">
+                <div class="col-md-3 col-sm-4 mb-sm-0 mb-3">
+                    <h3 class="mb-2 font-size-lg">{{item.client.first_name}} {{item.client.second_name}} {{item.client.first_surname}} {{item.client.second_surname}}</h3>
+                    <span class="d-block mb-3 fs-sm text-muted">{{item.createdAt | date}}</span>
+                    <div class="mt-n1 star-rating">
+                        <i class="sr-star cxi-star-filled" [ngClass]="{active: item.stars >= 1}"></i>
+                        <i class="sr-star cxi-star-filled" [ngClass]="{active: item.stars >= 2}"></i>
+                        <i class="sr-star cxi-star-filled" [ngClass]="{active: item.stars >= 3}"></i>
+                        <i class="sr-star cxi-star-filled" [ngClass]="{active: item.stars >= 4}"></i>
+                        <i class="sr-star cxi-star-filled" [ngClass]="{active: item.stars >= 5}"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <p class="mb-3">
+                        <a class="me-1 fw-bold text-decoration-none" href="#">{{item.client.email}}</a> <br> {{item.review}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="reviews.length == 0">
+            <div class="col-12 text-center">
+                <h4>No hay reseñas apara el producto</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="reviews.length"></ngb-pagination>
+    </div>
+</div>

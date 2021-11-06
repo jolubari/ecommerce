@@ -1,0 +1,92 @@
+<app-sidebar></app-sidebar>
+
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Products</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+        <p class="text-muted">Register new product.</p>
+    </div>
+</div>
+
+<ng-container *ngIf="product">
+    <form #updateForm="ngForm" (ngSubmit)="updateProduct(updateForm)">
+        <div class="card box-shadow-sm">
+            <div class="card-header">
+                <h5 style="margin-bottom: 0px">Update product</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-12 form-group">
+                                <label for="">Titulo de producto</label>
+                                <input type="text" class="form-control" placeholder="Titulo de producto" required name="title" [(ngModel)]="product.title" />
+                            </div>
+                            <div class="col-lg-4 form-group">
+                                <label for="">Stock</label>
+                                <input type="number" class="form-control" placeholder="Cantidad inicial" required name="stock" [(ngModel)]="product.stock" />
+                            </div>
+                            <div class="col-lg-4 form-group">
+                                <label for="">Precio</label>
+                                <input type="number" class="form-control" placeholder="Precio" required name="price" [(ngModel)]="product.price" />
+                            </div>
+                            <div class="col-lg-4 form-group">
+                                <label for="">Categoría</label>
+                                <select class="form-control custom-select" id="select-input" required name="category" [(ngModel)]="product.category">
+                                    <option value="" selected disabled>Seleccionar</option>
+                                    <option value="{{category.title}}" *ngFor="let category of configGlobal.categories">{{category.title}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-12 form-group">
+                                <label for="">Descripción corta</label>
+                                <textarea class="form-control" placeholder="Titulo de producto" required rows="5" name="description" [(ngModel)]="product.description"></textarea>
+                            </div>
+
+                            <div class="col-lg-12 form-group">
+                                <tinymce [config]="config" name="content" [(ngModel)]="product.content"></tinymce>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12 form-group">
+                                <label for="">Portada</label>
+                                <div class="custom-file">
+                                    <input class="custom-file-input" type="file" id="file-input" (change)="fileChangeEvent($event)" />
+                                    <label class="custom-file-label" id="input-cover" for="file-input" style="white-space:nowrap; overflow:hidden">select image</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <img [src]="imgSelected" class="img-thumbnail" alt="Rounded image" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button *ngIf="!btnDisabled" class="btn btn-primary mr-3" type="submit">Actualizar producto</button>
+                <button *ngIf="btnDisabled" type="button" class="btn btn-secondary" disabled>
+                    <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
+                    Updating...
+                </button>
+                <a class="btn btn-warning" [routerLink]="['/panel/products']">Regresar</a>
+            </div>
+        </div>
+    </form>
+</ng-container>
+
+<ng-container *ngIf="!product">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Client not found</h3>
+
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    <img src="assets/img/error.png" alt="" style="width: 100%" />
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
